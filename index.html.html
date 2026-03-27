@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Madurez SSOMA — Socoval SpA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#1B2A4A;color:#F4F6F9;min-height:100vh}
+:root{
+  --navy:#1B2A4A;--blue:#2D5F8A;--steel:#5B9BD5;--ice:#C8DCF0;
+  --white:#F4F6F9;--muted:#8DA8BF;--dark:#0F1D31;--surface:#223354;
+  --border:rgba(93,155,213,.22);
+}
+.hdr{background:var(--dark);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+.hdr h1{font-size:16px;font-weight:600;color:#fff}
+.hdr-sub{font-size:11px;color:var(--muted);margin-top:3px}
+.hdr-right{font-size:11px;color:var(--muted);text-align:right;line-height:1.7}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:18px 28px}
+.mc{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.mc label{font-size:10px;color:var(--muted);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.mc .val{font-size:26px;font-weight:600;color:#fff}
+.mc .sub{font-size:11px;color:var(--muted);margin-top:3px}
+.tabs{display:flex;padding:0 28px;border-bottom:1px solid var(--border);background:var(--navy);overflow-x:auto}
+.tab{padding:10px 18px;font-size:13px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;flex-shrink:0}
+.tab:hover{color:var(--ice)}
+.tab.active{color:#fff;border-bottom-color:var(--steel);font-weight:500}
+.content{padding:20px 28px}
+/* chips */
+.chip{font-size:10px;font-weight:600;padding:3px 8px;border-radius:8px;text-align:center;letter-spacing:.2px;display:inline-block}
+.c0{background:rgba(220,53,69,.2);color:#f28b8b;border:1px solid rgba(220,53,69,.3)}
+.c1{background:rgba(255,160,0,.15);color:#ffcc6e;border:1px solid rgba(255,160,0,.25)}
+.c2{background:rgba(91,155,213,.2);color:#7ab8e8;border:1px solid rgba(91,155,213,.3)}
+.c3{background:rgba(76,175,80,.15);color:#88d48a;border:1px solid rgba(76,175,80,.25)}
+/* resumen */
+.pilar-row{display:grid;grid-template-columns:230px 1fr 82px 82px 82px 60px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(93,155,213,.1)}
+.pilar-row.hd{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;padding-bottom:8px}
+.pilar-name{font-size:12px;color:var(--white);line-height:1.4}
+.bar-wrap{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.score{font-size:13px;font-weight:600;color:#7ab8e8;text-align:center}
+/* detalle */
+.var-block{margin-bottom:22px}
+.var-block-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.badge{background:var(--steel);color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.var-block-header h3{font-size:14px;font-weight:500;color:var(--ice)}
+.var-block-header .doc-ref{font-size:11px;color:var(--muted);margin-left:auto}
+.var-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.var-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px}
+.vname{font-size:12px;font-weight:500;color:var(--white);margin-bottom:5px;line-height:1.4}
+.vref{font-size:10px;color:var(--muted);margin-bottom:10px}
+.var-units{display:flex;gap:6px}
+.unit-cell{flex:1;text-align:center}
+.ulabel{font-size:9px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+/* glosario */
+.glos-block{margin-bottom:24px}
+.glos-block h3{font-size:13px;font-weight:600;color:var(--ice);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.glos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.glos-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--steel);border-radius:8px;padding:14px 16px}
+.glos-card h4{font-size:12px;font-weight:600;color:#fff;margin-bottom:6px}
+.glos-card p{font-size:12px;color:var(--muted);line-height:1.6}
+.glos-card .meta{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap}
+.glos-card .meta span{font-size:10px;padding:2px 7px;border-radius:6px;background:rgba(93,155,213,.12);color:var(--ice)}
+/* prioridades */
+.sum-strip{display:flex;gap:12px;margin-bottom:16px}
+.sum-strip .mc{flex:1}
+.prio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.prio-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid;border-radius:8px;padding:15px}
+.prio-card.alta{border-left-color:#f28b8b}
+.prio-card.media{border-left-color:#ffcc6e}
+.ptag{font-size:10px;font-weight:600;display:inline-block;padding:2px 8px;border-radius:6px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px}
+.ptag.alta{background:rgba(220,53,69,.2);color:#f28b8b}
+.ptag.media{background:rgba(255,160,0,.15);color:#ffcc6e}
+.prio-card h4{font-size:13px;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4}
+.prio-card p{font-size:11px;color:var(--muted);line-height:1.55}
+.esfuerzo{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:var(--muted)}
+.esfuerzo strong{color:var(--ice)}
+.note{margin-top:14px;padding:11px 15px;background:rgba(93,155,213,.08);border:1px solid rgba(93,155,213,.2);border-radius:8px;font-size:11px;color:var(--muted);line-height:1.55}
+/* graficos */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chart-box{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.chart-box.full{grid-column:1/-1}
+.chart-label{font-size:10px;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+@media(max-width:720px){
+  .metrics,.sum-strip{grid-template-columns:1fr 1fr}
+  .chart-grid{grid-template-columns:1fr}
+  .chart-box.full{grid-column:1}
+  .pilar-row{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .pilar-row .bar-wrap{display:none}
+  .content,.metrics{padding:14px 16px}
+  .tabs{padding:0 16px}
+  .hdr{flex-direction:column;align-items:flex-start;gap:6px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>Dashboard de Madurez SSOMA — Socoval SpA</h1>
+    <div class="hdr-sub">Plan Maestro SSOMA · DS N°44 · 12 meses de implementación · Diagnóstico inicial</div>
+  </div>
+  <div class="hdr-right">Escala: 0 No existe · 1 Bajo · 2 Aceptable · 3 Pleno<br>28 variables · 3 unidades operativas · 7 pilares</div>
+</div>
+
+<div class="metrics" id="metrics"></div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('resumen',this)">Resumen por pilar</div>
+  <div class="tab" onclick="showTab('detalle',this)">Variables detalladas</div>
+  <div class="tab" onclick="showTab('glosario',this)">Glosario de variables</div>
+  <div class="tab" onclick="showTab('prioridades',this)">Prioridades y esfuerzo</div>
+  <div class="tab" onclick="showTab('graficos',this)">Gráficos</div>
+</div>
+
+<div class="content" id="content"></div>
+
+<script>
+const LEVELS=['No existe','Bajo','Aceptable','Pleno'];
+const COLORS=['#dc3545','#ffa000','#5B9BD5','#4caf50'];
+const CHIP=['c0','c1','c2','c3'];
+
+// ─── DATOS alineados al Plan Maestro SSOMA Socoval ────────────────────────────
+const data=[
+  {
+    id:1,
+    nombre:'Gobernanza y DS N°44',
+    ref:'Sección 4.1',
+    vars:[
+      {n:'Política corporativa SSOMA formalizada',ref:'§4.1.1',planta:0,montaje:0,general:1,
+        desc:'Existencia de una política corporativa aprobada por Gerencia General, difundida y operativa como marco rector. Según §4.1.1, debe establecer la posición de Socoval en seguridad, salud, medio ambiente y cumplimiento legal.',
+        indicador:'Documento firmado + acta de difusión por unidad'},
+      {n:'Estructura preventiva formal (CPH, Delegados SST)',ref:'§4.1.6',planta:0,montaje:1,general:1,
+        desc:'Regularización de Comité Paritario de Higiene y Seguridad (CPH), Delegados de Seguridad en faenas pequeñas y responsable de apoyo preventivo. Exigencia legal que habilita la participación de los trabajadores.',
+        indicador:'Actas de constitución + nóminas vigentes'},
+      {n:'Programa anual de trabajo preventivo',ref:'§4.1.3',planta:0,montaje:0,general:1,
+        desc:'Programa con actividades calendarizadas, responsables, plazos e indicadores. Es el instrumento operativo central del sistema; sin él no hay trazabilidad de la gestión preventiva.',
+        indicador:'Documento aprobado + % de cumplimiento mensual'},
+      {n:'Procedimiento de riesgo grave e inminente',ref:'§4.1.4',planta:0,montaje:0,general:0,
+        desc:'Procedimiento formal para detener trabajos ante riesgo grave. Debe definir criterios de suspensión, flujo de comunicación y control de reinicio. Ausencia implica exposición legal grave.',
+        indicador:'Procedimiento escrito + registro de ejercicios'},
+    ]
+  },
+  {
+    id:2,
+    nombre:'Control de Riesgos Críticos',
+    ref:'Sección 4.2',
+    vars:[
+      {n:'Matriz IPER por proceso y puesto (DS 44)',ref:'§4.1.2',planta:1,montaje:1,general:1,
+        desc:'Matriz de Identificación de Peligros y Evaluación de Riesgos alineada al DS 44, con jerarquía de controles. Debe ser operativa, conocida por la línea de mando y actualizada periódicamente.',
+        indicador:'Matriz vigente + evidencia de uso en terreno'},
+      {n:'Manual de controles críticos para los 9 riesgos identificados',ref:'§4.2.2',planta:0,montaje:0,general:0,
+        desc:'Los 9 riesgos críticos de Socoval (energías peligrosas, altura, izaje, espacios confinados, sustancias peligrosas, hombre-máquina, trabajos en caliente, eléctrico, tránsito) deben tener controles obligatorios, condiciones de prohibición y evidencias mínimas documentadas.',
+        indicador:'Manual corporativo aprobado + difusión verificable'},
+      {n:'Sistema de permisos de trabajo para tareas críticas',ref:'§4.2.3',planta:1,montaje:0,general:1,
+        desc:'Permisos estandarizados para tareas críticas con aprobación, vigencia, controles previos y criterios de detención. Sin permisos, el trabajo crítico no debería ejecutarse.',
+        indicador:'Formato vigente + registros de uso por tarea'},
+      {n:'Verificación diaria de controles (VFL/checklist)',ref:'§4.2.4',planta:0,montaje:0,general:0,
+        desc:'Todo trabajo con riesgo crítico debe ejecutarse con checklist supervisado. La ausencia de controles críticos verificados implica la no ejecución del trabajo. Actualmente no existe evidencia de VFL sistemático.',
+        indicador:'Registros diarios de VFL + tasa de cumplimiento'},
+    ]
+  },
+  {
+    id:3,
+    nombre:'Excelencia Operacional',
+    ref:'Sección 4.3',
+    vars:[
+      {n:'Señalización y comunicación visual del riesgo',ref:'§4.3.1',planta:1,montaje:1,general:1,
+        desc:'Plan de señalización industrial que identifique riesgos, rutas de evacuación, uso de EPP y restricciones. Incluye demarcación de pasillos y zonas de tránsito (§4.3.2). Estado actual: existe parcialmente, sin estándar corporativo.',
+        indicador:'% de instalaciones con señalización conforme'},
+      {n:'Programa de orden, limpieza y control de condiciones subestándar',ref:'§4.3.3',planta:0,montaje:1,general:1,
+        desc:'Sistema continuo de orden y limpieza industrial orientado a eliminar desvíos físicos. Es base de la disciplina operacional y reduce exposición al riesgo de forma transversal.',
+        indicador:'Inspecciones periódicas + registro de desvíos cerrados'},
+      {n:'Estándares para equipos, herramientas e instalaciones',ref:'§4.3.4',planta:1,montaje:1,general:2,
+        desc:'Estándares mínimos para máquinas, herramientas, instalaciones eléctricas y almacenamiento, con protocolos de inspección y mantenimiento. Área con mayor avance relativo dentro del pilar.',
+        indicador:'Listado de estándares aprobados + registros de inspección'},
+      {n:'Evaluación ergonómica de puestos críticos',ref:'§4.3.5',planta:0,montaje:0,general:1,
+        desc:'Evaluación de puestos de trabajo desde el punto de vista ergonómico: posturas, carga física, repetitividad, manipulación de cargas. Vinculado directamente con los protocolos PREXOR y TMERT del pilar de salud.',
+        indicador:'Informes de evaluación + plan de adecuación'},
+    ]
+  },
+  {
+    id:4,
+    nombre:'Gestión Ambiental',
+    ref:'Sección 4.4',
+    vars:[
+      {n:'Regularización administrativa y sanitaria (patentes, autorizaciones)',ref:'§4.4.1',planta:0,montaje:0,general:1,
+        desc:'Patente comercial, recepción municipal, autorizaciones sanitarias y respaldos de almacenamiento vigentes. Sin esto, las instalaciones operan con riesgo sancionatorio inmediato.',
+        indicador:'Carpeta documental vigente por instalación'},
+      {n:'Sistema de gestión de residuos peligrosos (RESPEL)',ref:'§4.4.2',planta:0,montaje:0,general:0,
+        desc:'Identificación, segregación, almacenamiento, etiquetado, retiro por gestor autorizado y trazabilidad de residuos peligrosos. Pilar con mayor brecha global: ninguna unidad tiene esto instalado.',
+        indicador:'Registros RESPEL + contratos con gestores autorizados'},
+      {n:'Control de aspectos ambientales significativos',ref:'§4.4.6',planta:0,montaje:0,general:1,
+        desc:'Identificación y gestión de residuos, emisiones, derrames y sustancias peligrosas. Incluye declaraciones ante Ventanilla Única (§4.4.5). Base del cumplimiento ambiental exigido por mandantes mineros.',
+        indicador:'Matriz de aspectos/impactos + plan de control'},
+      {n:'Valorización de metales y residuos no peligrosos con trazabilidad',ref:'§4.4.3-4',planta:1,montaje:0,general:1,
+        desc:'Gestión formal de residuos industriales no peligrosos y valorización de chatarra/metales con certificados de recepción y trazabilidad cuantitativa. Variable con mayor avance dentro del pilar.',
+        indicador:'Certificados de retiro + registros cuantitativos'},
+    ]
+  },
+  {
+    id:5,
+    nombre:'Salud Ocupacional',
+    ref:'Sección 4.5',
+    vars:[
+      {n:'Vigilancia médica ocupacional (ingreso, permanencia, egreso)',ref:'§4.5.3',planta:1,montaje:1,general:2,
+        desc:'Control de evaluaciones médicas ocupacionales estructurado por etapa (ingreso, permanencia, seguimiento, egreso). Variable con mejor nivel relativo del sistema; aplica especialmente a personas con exposición a ruido y humos metálicos.',
+        indicador:'Registros de exámenes por trabajador + trazabilidad de restricciones'},
+      {n:'Programa de vigilancia ambiental e higiene industrial',ref:'§4.5.1-2',planta:0,montaje:1,general:1,
+        desc:'Identificación de agentes de riesgo (ruido, humos metálicos, exposición química, carga física) y coordinación con el organismo administrador para incorporación a programas de vigilancia ocupacional.',
+        indicador:'Informes de medición ambiental + nómina de trabajadores en vigilancia'},
+      {n:'Protocolos PREXOR y TMERT activos',ref:'§4.5.1',planta:2,montaje:1,general:2,
+        desc:'Aplicación de protocolos MINSAL para exposición a ruido (PREXOR) y trastornos musculoesqueléticos (TMERT). Es la variable con mayor nivel de madurez en toda la empresa, especialmente en Planta.',
+        indicador:'Informes PREXOR/TMERT vigentes + medidas implementadas'},
+      {n:'Control de personas especialmente sensibles',ref:'§4.5.4-5',planta:0,montaje:0,general:1,
+        desc:'Identificación y control especial de trabajadores con condiciones de salud que los exponen a mayor riesgo en determinadas tareas. Incluye trazabilidad de restricciones y medidas prescritas.',
+        indicador:'Registro de trabajadores sensibles + cumplimiento de restricciones'},
+    ]
+  },
+  {
+    id:6,
+    nombre:'Reportabilidad e Investigación',
+    ref:'Sección 4.6',
+    vars:[
+      {n:'Sistema corporativo de reportabilidad total',ref:'§4.6.1-2',planta:1,montaje:0,general:1,
+        desc:'Canales simples, rápidos y trazables para reportar accidentes, cuasi-accidentes, condiciones subestándar, actos inseguros y hallazgos críticos. Montaje sin sistema activo. Sin reporte no hay aprendizaje.',
+        indicador:'N° de eventos reportados por mes + tasa de reportabilidad'},
+      {n:'Metodología de investigación y análisis de causa raíz',ref:'§4.6.4',planta:0,montaje:1,general:1,
+        desc:'Metodología corporativa para identificar causas inmediatas, básicas y fallas del sistema, evitando culpar a las personas. Debe producir planes de acción con responsables y plazos verificables.',
+        indicador:'% de investigaciones en plazo (24–72 hrs) + calidad de causa raíz'},
+      {n:'Trazabilidad de acciones correctivas y preventivas',ref:'§4.6.5-6',planta:0,montaje:0,general:1,
+        desc:'Gestión del cierre de acciones con evidencia verificable. Ningún evento puede cerrarse sin respaldo. Incluye control de reincidencia para validar eficacia del sistema.',
+        indicador:'% de acciones cerradas en plazo + tasa de reincidencia'},
+      {n:'Sistema de lecciones aprendidas y retroalimentación',ref:'§4.6.7',planta:0,montaje:0,general:0,
+        desc:'Transformación de eventos relevantes en aprendizaje organizacional mediante difusión, alertas internas, charlas y ajustes al sistema. Actualmente inexistente en todas las unidades.',
+        indicador:'N° de lecciones difundidas + ajustes documentados al sistema'},
+    ]
+  },
+  {
+    id:7,
+    nombre:'Cultura y Liderazgo',
+    ref:'Sección 4.7',
+    vars:[
+      {n:'Liderazgo visible de gerencia y jefaturas en terreno',ref:'§4.7.2',planta:1,montaje:1,general:2,
+        desc:'Presencia activa de gerencia y jefaturas en terreno verificando controles, reforzando conductas y dando señales de prioridad al sistema. Es indicador de gestión formal (§7.3: presencia gerencial en terreno).',
+        indicador:'Registro de visitas en terreno + frecuencia por jefatura'},
+      {n:'Observaciones preventivas activas (OPA)',ref:'§4.7.3',planta:0,montaje:1,general:1,
+        desc:'Observaciones preventivas realizadas por supervisores y trabajadores como práctica sistemática. Herramienta clave para detectar desviaciones antes de que ocurran eventos. Indicador formal del sistema (§7.3).',
+        indicador:'N° de OPA por período + % con cierre documentado'},
+      {n:'Capacitación SSOMA continua y habilitación',ref:'§4.2.5 / §4.7',planta:1,montaje:1,general:2,
+        desc:'Toda persona expuesta a riesgos críticos debe estar capacitada, evaluada y habilitada formalmente. La capacitación continua es condición para mantener la disciplina operacional.',
+        indicador:'% de personal habilitado por riesgo crítico + horas de capacitación'},
+      {n:'Régimen de tolerancia cero y cultura de reporte sin temor',ref:'§4.7.4-5',planta:0,montaje:0,general:1,
+        desc:'Tolerancia cero frente al ocultamiento de incidentes e incumplimiento de controles críticos, combinada con mecanismos de reconocimiento a la conducta segura. Sin ambos elementos la reportabilidad colapsa.',
+        indicador:'Índice de reportabilidad (§7.3) + registros de refuerzo positivo'},
+    ]
+  }
+];
+
+const prioridades=[
+  {pilar:'Gobernanza y DS N°44',acc:'Formalizar política corporativa SSOMA y estructura preventiva (CPH, Delegados)',ref:'§4.1.1 / §4.1.6',plazo:'Etapa 1 · Mes 1–3',hh:40,prio:'alta',motivo:'Base normativa y legal sin la cual el sistema carece de sustento ante fiscalización. Habilitante de todos los demás pilares.'},
+  {pilar:'Control de Riesgos Críticos',acc:'Elaborar manual de controles críticos para los 9 riesgos identificados e instalar VFL',ref:'§4.2.2 / §4.2.4',plazo:'Etapa 1–2 · Mes 2–4',hh:70,prio:'alta',motivo:'Exposición directa a accidentes graves mientras no existan controles documentados y verificación diaria en terreno.'},
+  {pilar:'Gestión Ambiental',acc:'Regularizar autorizaciones sanitarias e implementar sistema RESPEL',ref:'§4.4.1 / §4.4.2',plazo:'Etapa 1–2 · Mes 2–4',hh:35,prio:'alta',motivo:'Pilar con mayor brecha global. Riesgo inmediato de multas, clausuras y pérdida de contratos con mandantes mineros.'},
+  {pilar:'Gobernanza y DS N°44',acc:'Implementar procedimiento de riesgo grave e inminente y programa anual preventivo',ref:'§4.1.3 / §4.1.4',plazo:'Etapa 1 · Mes 1–3',hh:30,prio:'alta',motivo:'Sin programa preventivo no hay sistema. Sin procedimiento de detención, el riesgo grave no tiene respuesta formal.'},
+  {pilar:'Reportabilidad e Investigación',acc:'Activar sistema de reportabilidad total y metodología de investigación',ref:'§4.6.1 / §4.6.4',plazo:'Etapa 2 · Mes 3–5',hh:50,prio:'alta',motivo:'Sin datos no hay diagnóstico. La reportabilidad es condición para operar con evidencia ante mandantes y fiscalizadores.'},
+  {pilar:'Excelencia Operacional',acc:'Desarrollar plan de señalización corporativa y programa de orden/limpieza',ref:'§4.3.1 / §4.3.3',plazo:'Etapa 2–3 · Mes 4–7',hh:45,prio:'media',motivo:'Condiciones físicas del terreno son la cara visible del sistema. Impactan directamente en auditorías de mandantes.'},
+  {pilar:'Salud Ocupacional',acc:'Estructurar programa de vigilancia ambiental y control de personas sensibles',ref:'§4.5.1 / §4.5.4',plazo:'Etapa 2–3 · Mes 4–7',hh:30,prio:'media',motivo:'Base existente con PREXOR/TMERT y vigilancia médica. Se trata de formalizar y completar lo que ya comenzó.'},
+  {pilar:'Cultura y Liderazgo',acc:'Instalar programa de OPA, lecciones aprendidas y reconocimiento a conducta segura',ref:'§4.7.3 / §4.6.7',plazo:'Etapa 3–4 · Mes 6–10',hh:80,prio:'media',motivo:'Requiere instalación cultural sostenida. No es acción puntual: debe construirse sobre los avances de los pilares anteriores.'},
+];
+
+// ─── FUNCIONES ────────────────────────────────────────────────────────────────
+function avg(vars,key){return +(vars.reduce((a,v)=>a+v[key],0)/vars.length).toFixed(2)}
+function gAvg(p){const all=p.vars.flatMap(v=>[v.planta,v.montaje,v.general]);return +(all.reduce((a,b)=>a+b,0)/all.length).toFixed(2)}
+function li(v){return Math.round(v)}
+function chip(v){return`<span class="chip ${CHIP[v]}">${LEVELS[v]}</span>`}
+
+function renderMetrics(){
+  const all=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje,v.general]));
+  const t=all.length,cero=all.filter(v=>v===0).length,bajo=all.filter(v=>v===1).length,acep=all.filter(v=>v>=2).length;
+  const pct=+(all.reduce((a,b)=>a+b,0)/(t*3)*100).toFixed(0);
+  document.getElementById('metrics').innerHTML=`
+    <div class="mc"><label>Índice global de madurez</label><div class="val" style="color:#5B9BD5">${pct}%</div><div class="sub">Meta año 1: 65%+</div></div>
+    <div class="mc"><label>Sin implementar (nivel 0)</label><div class="val" style="color:#f28b8b">${cero}</div><div class="sub">de ${t} variables evaluadas</div></div>
+    <div class="mc"><label>Nivel bajo (nivel 1)</label><div class="val" style="color:#ffcc6e">${bajo}</div><div class="sub">esfuerzo inicial sin sistematizar</div></div>
+    <div class="mc"><label>Aceptable o pleno (2–3)</label><div class="val" style="color:#88d48a">${acep}</div><div class="sub">base instalada para desarrollar</div></div>`;
+}
+
+let charts=[];
+function destroyCharts(){charts.forEach(c=>{try{c.destroy()}catch(e){}});charts=[];}
+
+function showTab(tab,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  destroyCharts();
+  const c=document.getElementById('content');
+
+  if(tab==='resumen'){
+    let h=`<div class="pilar-row hd">
+      <span>Pilar</span><span>Índice global</span>
+      <span style="text-align:center">Planta</span>
+      <span style="text-align:center">Montaje</span>
+      <span style="text-align:center">General</span>
+      <span style="text-align:center">Score</span>
+    </div>`;
+    data.forEach(p=>{
+      const ga=gAvg(p),pa=avg(p.vars,'planta'),ma=avg(p.vars,'montaje'),gea=avg(p.vars,'general');
+      const pct=+(ga/3*100).toFixed(0);
+      h+=`<div class="pilar-row">
+        <span class="pilar-name">${p.id}. ${p.nombre} <span style="font-size:10px;color:var(--muted)">${p.ref}</span></span>
+        <div><div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${COLORS[li(ga)]}"></div></div></div>
+        ${chip(li(pa))}${chip(li(ma))}${chip(li(gea))}
+        <span class="score">${ga}/3</span>
+      </div>`;
+    });
+    c.innerHTML=h;
+  }
+
+  if(tab==='detalle'){
+    let h='';
+    data.forEach(p=>{
+      h+=`<div class="var-block">
+        <div class="var-block-header">
+          <span class="badge">${p.id}</span>
+          <h3>${p.nombre}</h3>
+          <span class="doc-ref">Plan Maestro ${p.ref}</span>
+        </div>
+        <div class="var-grid">`;
+      p.vars.forEach(v=>{
+        h+=`<div class="var-card">
+          <div class="vname">${v.n}</div>
+          <div class="vref">Ref. Plan Maestro ${v.ref}</div>
+          <div class="var-units">
+            <div class="unit-cell"><div class="ulabel">Planta</div>${chip(v.planta)}</div>
+            <div class="unit-cell"><div class="ulabel">Montaje</div>${chip(v.montaje)}</div>
+            <div class="unit-cell"><div class="ulabel">General</div>${chip(v.general)}</div>
+          </div>
+        </div>`;
+      });
+      h+='</div></div>';
+    });
+    c.innerHTML=h;
+  }
+
+  if(tab==='glosario'){
+    let h=`<div style="margin-bottom:16px;padding:12px 16px;background:rgba(93,155,213,.08);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--muted);line-height:1.6">
+      Cada variable del índice está directamente referenciada al Plan Maestro SSOMA de Socoval SpA. 
+      La columna "indicador" muestra qué evidencia concreta se necesita para subir de nivel en cada variable.
+    </div>`;
+    data.forEach(p=>{
+      h+=`<div class="glos-block">
+        <h3><span class="badge">${p.id}</span>${p.nombre} <span style="font-size:11px;font-weight:400;color:var(--muted)">&nbsp;${p.ref}</span></h3>
+        <div class="glos-grid">`;
+      p.vars.forEach(v=>{
+        h+=`<div class="glos-card">
+          <h4>${v.n}</h4>
+          <p>${v.desc}</p>
+          <div class="meta">
+            <span>Ref. ${v.ref}</span>
+            <span>Indicador: ${v.indicador}</span>
+          </div>
+        </div>`;
+      });
+      h+='</div></div>';
+    });
+    c.innerHTML=h;
+  }
+
+  if(tab==='prioridades'){
+    const totalHH=prioridades.reduce((a,p)=>a+p.hh,0);
+    let h=`<div class="sum-strip">
+      <div class="mc"><label>Total HH estimadas</label><div class="val" style="color:#5B9BD5">${totalHH}</div><div class="sub">fase inicial · etapas 1–3</div></div>
+      <div class="mc"><label>Acciones alta prioridad</label><div class="val" style="color:#f28b8b">${prioridades.filter(p=>p.prio==='alta').length}</div><div class="sub">inicio en Etapa 1</div></div>
+      <div class="mc"><label>Acciones media prioridad</label><div class="val" style="color:#ffcc6e">${prioridades.filter(p=>p.prio==='media').length}</div><div class="sub">etapas 2–4</div></div>
+    </div><div class="prio-grid">`;
+    prioridades.forEach(p=>{
+      h+=`<div class="prio-card ${p.prio}">
+        <span class="ptag ${p.prio}">${p.prio==='alta'?'Prioridad alta':'Prioridad media'}</span>
+        <h4>${p.acc}</h4>
+        <p>${p.motivo}</p>
+        <div class="esfuerzo">
+          <span>Pilar: <strong>${p.pilar}</strong></span>
+          <span>· <strong>${p.plazo}</strong></span>
+          <span>· Ref. <strong>${p.ref}</strong></span>
+          <span>· <strong>${p.hh} HH</strong></span>
+        </div>
+      </div>`;
+    });
+    h+=`</div><div class="note">HH referenciales. Ajustar según dotación SSOMA disponible en Socoval. Las etapas corresponden a la Hoja de Ruta del §8: Etapa 1 (Mes 1–3 bases), Etapa 2 (Mes 4–6 estandarización), Etapa 3 (Mes 7–9 terreno), Etapa 4 (Mes 10–12 consolidación).</div>`;
+    c.innerHTML=h;
+  }
+
+  if(tab==='graficos'){
+    c.innerHTML=`<div class="chart-grid">
+      <div class="chart-box"><div class="chart-label">Madurez global por pilar (score 0–3)</div><div style="position:relative;height:300px"><canvas id="c1"></canvas></div></div>
+      <div class="chart-box"><div class="chart-label">Comparativa planta / montaje / general</div><div style="position:relative;height:300px"><canvas id="c2"></canvas></div></div>
+      <div class="chart-box full"><div class="chart-label">Distribución de variables por nivel de madurez (${data.flatMap(p=>p.vars).length * 3} evaluaciones totales)</div><div style="position:relative;height:200px"><canvas id="c3"></canvas></div></div>
+    </div>`;
+    Chart.defaults.color='#8DA8BF';
+    Chart.defaults.borderColor='rgba(93,155,213,.18)';
+    setTimeout(()=>{
+      const labels=data.map(p=>p.id+'. '+p.nombre.split(' ').slice(0,2).join(' '));
+      const ga=data.map(p=>+gAvg(p));
+      charts.push(new Chart(document.getElementById('c1'),{
+        type:'bar',
+        data:{labels,datasets:[{data:ga,backgroundColor:ga.map(v=>COLORS[li(v)]),borderWidth:0,borderRadius:4}]},
+        options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`Score: ${ctx.parsed.x.toFixed(2)} / 3 — ${LEVELS[li(ctx.parsed.x)]}`}}},scales:{x:{min:0,max:3,ticks:{stepSize:1,callback:v=>LEVELS[v]||v},grid:{color:'rgba(255,255,255,.06)'}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
+      }));
+      charts.push(new Chart(document.getElementById('c2'),{
+        type:'radar',
+        data:{
+          labels:data.map(p=>p.id+'.'),
+          datasets:[
+            {label:'Planta',data:data.map(p=>+avg(p.vars,'planta')),borderColor:'#f28b8b',backgroundColor:'rgba(242,139,139,.1)',pointRadius:3,pointBackgroundColor:'#f28b8b'},
+            {label:'Montaje',data:data.map(p=>+avg(p.vars,'montaje')),borderColor:'#ffcc6e',backgroundColor:'rgba(255,204,110,.1)',pointRadius:3,pointBackgroundColor:'#ffcc6e'},
+            {label:'General',data:data.map(p=>+avg(p.vars,'general')),borderColor:'#5B9BD5',backgroundColor:'rgba(91,155,213,.15)',pointRadius:3,pointBackgroundColor:'#5B9BD5'},
+          ]
+        },
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,color:'#8DA8BF'}}},scales:{r:{min:0,max:3,ticks:{stepSize:1,font:{size:9},backdropColor:'transparent'},grid:{color:'rgba(255,255,255,.08)'},pointLabels:{font:{size:12},color:'#C8DCF0'}}}}
+      }));
+      const allv=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje,v.general]));
+      const counts=[0,1,2,3].map(l=>allv.filter(v=>v===l).length);
+      charts.push(new Chart(document.getElementById('c3'),{
+        type:'bar',
+        data:{labels:LEVELS.map((l,i)=>`Nivel ${i} — ${l}`),datasets:[{data:counts,backgroundColor:COLORS,borderWidth:0,borderRadius:4,barPercentage:.45}]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.parsed.y} evaluaciones (${(ctx.parsed.y/allv.length*100).toFixed(0)}%)`}}},scales:{x:{grid:{display:false}},y:{ticks:{stepSize:5},grid:{color:'rgba(255,255,255,.06)'},title:{display:true,text:'N° de evaluaciones',font:{size:11},color:'#8DA8BF'}}}}
+      }));
+    },100);
+  }
+}
+
+renderMetrics();
+showTab('resumen',document.querySelector('.tab.active'));
+</script>
+</body>
+</html>
