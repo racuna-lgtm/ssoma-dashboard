@@ -258,16 +258,33 @@ const data=[
   }
 ];
 
-const prioridades=[
-  {pilar:'Gobernanza y DS N°44',acc:'Formalizar política corporativa SSOMA y estructura preventiva (CPH, Delegados)',ref:'§4.1.1 / §4.1.6',plazo:'Etapa 1 · Mes 1–3',hh:40,prio:'alta',motivo:'Base normativa y legal sin la cual el sistema carece de sustento ante fiscalización. Habilitante de todos los demás pilares.'},
-  {pilar:'Control de Riesgos Críticos',acc:'Elaborar manual de controles críticos para los 9 riesgos identificados e instalar VFL',ref:'§4.2.2 / §4.2.4',plazo:'Etapa 1–2 · Mes 2–4',hh:70,prio:'alta',motivo:'Exposición directa a accidentes graves mientras no existan controles documentados y verificación diaria en terreno.'},
-  {pilar:'Gestión Ambiental',acc:'Regularizar autorizaciones sanitarias e implementar sistema RESPEL',ref:'§4.4.1 / §4.4.2',plazo:'Etapa 1–2 · Mes 2–4',hh:35,prio:'alta',motivo:'Pilar con mayor brecha global. Riesgo inmediato de multas, clausuras y pérdida de contratos con mandantes mineros.'},
-  {pilar:'Gobernanza y DS N°44',acc:'Implementar procedimiento de riesgo grave e inminente y programa anual preventivo',ref:'§4.1.3 / §4.1.4',plazo:'Etapa 1 · Mes 1–3',hh:30,prio:'alta',motivo:'Sin programa preventivo no hay sistema. Sin procedimiento de detención, el riesgo grave no tiene respuesta formal.'},
-  {pilar:'Reportabilidad e Investigación',acc:'Activar sistema de reportabilidad total y metodología de investigación',ref:'§4.6.1 / §4.6.4',plazo:'Etapa 2 · Mes 3–5',hh:50,prio:'alta',motivo:'Sin datos no hay diagnóstico. La reportabilidad es condición para operar con evidencia ante mandantes y fiscalizadores.'},
-  {pilar:'Excelencia Operacional',acc:'Desarrollar plan de señalización corporativa y programa de orden/limpieza',ref:'§4.3.1 / §4.3.3',plazo:'Etapa 2–3 · Mes 4–7',hh:45,prio:'media',motivo:'Condiciones físicas del terreno son la cara visible del sistema. Impactan directamente en auditorías de mandantes.'},
-  {pilar:'Salud Ocupacional',acc:'Estructurar programa de vigilancia ambiental y control de personas sensibles',ref:'§4.5.1 / §4.5.4',plazo:'Etapa 2–3 · Mes 4–7',hh:30,prio:'media',motivo:'Base existente con PREXOR/TMERT y vigilancia médica. Se trata de formalizar y completar lo que ya comenzó.'},
-  {pilar:'Cultura y Liderazgo',acc:'Instalar programa de OPA, lecciones aprendidas y reconocimiento a conducta segura',ref:'§4.7.3 / §4.6.7',plazo:'Etapa 3–4 · Mes 6–10',hh:80,prio:'media',motivo:'Requiere instalación cultural sostenida. No es acción puntual: debe construirse sobre los avances de los pilares anteriores.'},
+// Tabla maestra de esfuerzo — coherente con PPT
+// e1/e2/e3/e4 = HH por etapa (total plan 12 meses = suma de las 4)
+// hhPrio = HH de la acción prioritaria de entrada (fase inicial)
+const esfuerzo=[
+  {id:1,pilar:'Gobernanza y DS N°44',e1:60,e2:20,e3:10,e4:10,hhPrio:70,plazo:'Etapa 1 · Mes 1–3',prio:'alta',ref:'§4.1.1 / §4.1.6',
+   acc:'Formalizar política SSOMA, estructura CPH/Delegados SST + programa anual preventivo',
+   motivo:'Base legal sin la cual el sistema no tiene sustento ante fiscalización. Habilitante de todos los pilares.'},
+  {id:2,pilar:'Control de Riesgos Críticos',e1:40,e2:50,e3:30,e4:15,hhPrio:70,plazo:'Etapa 1–2 · Mes 2–4',prio:'alta',ref:'§4.2.2 / §4.2.4',
+   acc:'Manual de controles para los 9 riesgos críticos e instalar VFL diario',
+   motivo:'Exposición directa a accidentes graves mientras no existan controles verificados en terreno.'},
+  {id:3,pilar:'Excelencia Operacional',e1:10,e2:35,e3:40,e4:15,hhPrio:45,plazo:'Etapa 2–3 · Mes 4–7',prio:'media',ref:'§4.3.1 / §4.3.3',
+   acc:'Plan de señalización corporativa y programa de orden y limpieza',
+   motivo:'Cara visible del sistema ante auditorías de mandantes. Base parcial existente.'},
+  {id:4,pilar:'Gestión Ambiental',e1:35,e2:25,e3:20,e4:10,hhPrio:35,plazo:'Etapa 1–2 · Mes 2–4',prio:'alta',ref:'§4.4.1 / §4.4.2',
+   acc:'Regularizar autorizaciones sanitarias e implementar sistema RESPEL',
+   motivo:'Mayor brecha global. Riesgo inmediato de multas, clausuras y pérdida de contratos con mandantes.'},
+  {id:5,pilar:'Salud Ocupacional',e1:10,e2:25,e3:20,e4:10,hhPrio:30,plazo:'Etapa 2–3 · Mes 4–7',prio:'media',ref:'§4.5.1 / §4.5.4',
+   acc:'Estructurar programa de vigilancia ambiental y control de personas sensibles',
+   motivo:'Base con PREXOR/TMERT activos. Formalizar y completar lo que ya comenzó.'},
+  {id:6,pilar:'Reportabilidad e Investigación',e1:20,e2:40,e3:30,e4:15,hhPrio:50,plazo:'Etapa 2 · Mes 3–5',prio:'alta',ref:'§4.6.1 / §4.6.4',
+   acc:'Activar sistema de reportabilidad total y metodología de investigación',
+   motivo:'Sin datos no hay diagnóstico ni evidencia verificable ante mandantes y fiscalizadores.'},
+  {id:7,pilar:'Cultura y Liderazgo',e1:10,e2:20,e3:50,e4:20,hhPrio:80,plazo:'Etapa 3–4 · Mes 6–10',prio:'media',ref:'§4.7.3 / §4.6.7',
+   acc:'Instalar programa OPA, lecciones aprendidas y reconocimiento a conducta segura',
+   motivo:'Requiere instalación cultural sostenida. Debe construirse sobre avances de los demás pilares.'},
 ];
+const prioridades=esfuerzo;
 
 // ─── FUNCIONES ────────────────────────────────────────────────────────────────
 function avg(vars,key){return +(vars.reduce((a,v)=>a+v[key],0)/vars.length).toFixed(2)}
@@ -367,26 +384,90 @@ function showTab(tab,el){
   }
 
   if(tab==='prioridades'){
-    const totalHH=prioridades.reduce((a,p)=>a+p.hh,0);
+    const totalCompleto=esfuerzo.reduce((a,r)=>a+(r.e1+r.e2+r.e3+r.e4),0);
+    const totalPrio=esfuerzo.reduce((a,r)=>a+r.hhPrio,0);
+    const altaCount=esfuerzo.filter(r=>r.prio==='alta').length;
+    const mediaCount=esfuerzo.filter(r=>r.prio==='media').length;
+
+    // Métricas
     let h=`<div class="sum-strip">
-      <div class="mc"><label>Total HH estimadas</label><div class="val" style="color:#5B9BD5">${totalHH}</div><div class="sub">fase inicial · etapas 1–3</div></div>
-      <div class="mc"><label>Acciones alta prioridad</label><div class="val" style="color:#f28b8b">${prioridades.filter(p=>p.prio==='alta').length}</div><div class="sub">inicio en Etapa 1</div></div>
-      <div class="mc"><label>Acciones media prioridad</label><div class="val" style="color:#ffcc6e">${prioridades.filter(p=>p.prio==='media').length}</div><div class="sub">etapas 2–4</div></div>
-    </div><div class="prio-grid">`;
-    prioridades.forEach(p=>{
-      h+=`<div class="prio-card ${p.prio}">
-        <span class="ptag ${p.prio}">${p.prio==='alta'?'Prioridad alta':'Prioridad media'}</span>
-        <h4>${p.acc}</h4>
-        <p>${p.motivo}</p>
+      <div class="mc"><label>HH plan completo (12 meses)</label><div class="val" style="color:#5B9BD5">${totalCompleto}</div><div class="sub">todas las etapas · 7 pilares</div></div>
+      <div class="mc"><label>HH fase prioritaria (meses 1–7)</label><div class="val" style="color:#f28b8b">${totalPrio}</div><div class="sub">acciones de entrada por pilar</div></div>
+      <div class="mc"><label>Pilares prioridad alta</label><div class="val" style="color:#f28b8b">${altaCount}</div><div class="sub">inicio inmediato</div></div>
+      <div class="mc"><label>Pilares prioridad media</label><div class="val" style="color:#ffcc6e">${mediaCount}</div><div class="sub">etapas 2–4</div></div>
+    </div>`;
+
+    // Nota explicativa
+    h+=`<div class="note" style="margin-bottom:16px">
+      <strong>Cómo leer este análisis:</strong> Las <strong>HH plan completo</strong> corresponden al esfuerzo total estimado por pilar distribuido en las 4 etapas del plan (12 meses). 
+      Las <strong>HH fase prioritaria</strong> son las horas de la acción de entrada de cada pilar, que deben ejecutarse primero. 
+      Ambas cifras son coherentes con los slides de análisis de esfuerzo de la presentación ejecutiva. Las HH son referenciales: ajustar según dotación real de Socoval SpA.
+    </div>`;
+
+    // Tabla por etapas
+    h+=`<div style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">HH por pilar y etapa — plan completo</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
+        <div style="display:grid;grid-template-columns:200px 1fr 65px 65px 65px 65px 70px 90px;gap:0;background:var(--dark);padding:8px 12px;font-size:9px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px">
+          <span>Pilar</span><span>Acción prioritaria de entrada</span>
+          <span style="text-align:center">E1<br>Mes 1–3</span><span style="text-align:center">E2<br>Mes 4–6</span>
+          <span style="text-align:center">E3<br>Mes 7–9</span><span style="text-align:center">E4<br>Mes 10–12</span>
+          <span style="text-align:center">Total</span><span style="text-align:center">Prioridad</span>
+        </div>`;
+
+    const PILAR_COLORS=['#1A7E76','#1B6EB5','#2E7D3A','#5A7A2E','#7B3F9E','#B07820','#C0392B'];
+    esfuerzo.forEach((r,i)=>{
+      const total=r.e1+r.e2+r.e3+r.e4;
+      const bg=i%2===0?'var(--surface)':'rgba(255,255,255,.03)';
+      const prioColor=r.prio==='alta'?'rgba(220,53,69,.2)':'rgba(255,160,0,.15)';
+      const prioText=r.prio==='alta'?'#f28b8b':'#ffcc6e';
+      h+=`<div style="display:grid;grid-template-columns:200px 1fr 65px 65px 65px 65px 70px 90px;gap:0;padding:9px 12px;border-top:1px solid var(--border);background:${bg};align-items:center">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="width:5px;height:28px;border-radius:2px;background:${PILAR_COLORS[i]};flex-shrink:0"></div>
+          <span style="font-size:11px;color:var(--white)">${r.id}. ${r.pilar}</span>
+        </div>
+        <span style="font-size:10px;color:var(--muted);padding:0 8px">${r.acc}</span>
+        <span style="text-align:center;font-size:11px;color:var(--muted)">${r.e1}</span>
+        <span style="text-align:center;font-size:11px;color:var(--muted)">${r.e2}</span>
+        <span style="text-align:center;font-size:11px;color:var(--muted)">${r.e3}</span>
+        <span style="text-align:center;font-size:11px;color:var(--muted)">${r.e4}</span>
+        <span style="text-align:center;font-size:12px;font-weight:600;color:var(--steel)">${total} HH</span>
+        <div style="text-align:center"><span style="font-size:9px;font-weight:600;padding:3px 8px;border-radius:8px;background:${prioColor};color:${prioText}">${r.prio==='alta'?'ALTA':'MEDIA'}</span></div>
+      </div>`;
+    });
+
+    // Fila total
+    const t1=esfuerzo.reduce((a,r)=>a+r.e1,0),t2=esfuerzo.reduce((a,r)=>a+r.e2,0);
+    const t3=esfuerzo.reduce((a,r)=>a+r.e3,0),t4=esfuerzo.reduce((a,r)=>a+r.e4,0);
+    h+=`<div style="display:grid;grid-template-columns:200px 1fr 65px 65px 65px 65px 70px 90px;gap:0;padding:9px 12px;border-top:1px solid var(--steel);background:rgba(93,155,213,.08);align-items:center">
+      <span style="font-size:10px;font-weight:600;color:var(--ice)">TOTAL</span>
+      <span></span>
+      <span style="text-align:center;font-size:11px;font-weight:600;color:var(--ice)">${t1}</span>
+      <span style="text-align:center;font-size:11px;font-weight:600;color:var(--ice)">${t2}</span>
+      <span style="text-align:center;font-size:11px;font-weight:600;color:var(--ice)">${t3}</span>
+      <span style="text-align:center;font-size:11px;font-weight:600;color:var(--ice)">${t4}</span>
+      <span style="text-align:center;font-size:13px;font-weight:700;color:var(--steel)">${totalCompleto} HH</span>
+      <span></span>
+    </div></div></div>`;
+
+    // Detalle por pilar — acción prioritaria
+    h+=`<div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Detalle de acciones prioritarias por pilar</div>
+    <div class="prio-grid">`;
+    esfuerzo.forEach(r=>{
+      h+=`<div class="prio-card ${r.prio}">
+        <span class="ptag ${r.prio}">${r.prio==='alta'?'Prioridad alta':'Prioridad media'}</span>
+        <h4>${r.acc}</h4>
+        <p>${r.motivo}</p>
         <div class="esfuerzo">
-          <span>Pilar: <strong>${p.pilar}</strong></span>
-          <span>· <strong>${p.plazo}</strong></span>
-          <span>· Ref. <strong>${p.ref}</strong></span>
-          <span>· <strong>${p.hh} HH</strong></span>
+          <span>Pilar: <strong>${r.pilar}</strong></span>
+          <span>· <strong>${r.plazo}</strong></span>
+          <span>· Ref. <strong>${r.ref}</strong></span>
+          <span>· Entrada: <strong>${r.hhPrio} HH</strong></span>
+          <span>· Total pilar: <strong>${r.e1+r.e2+r.e3+r.e4} HH</strong></span>
         </div>
       </div>`;
     });
-    h+=`</div><div class="note">HH referenciales. Ajustar según dotación SSOMA disponible en Socoval. Las etapas corresponden a la Hoja de Ruta del §8: Etapa 1 (Mes 1–3 bases), Etapa 2 (Mes 4–6 estandarización), Etapa 3 (Mes 7–9 terreno), Etapa 4 (Mes 10–12 consolidación).</div>`;
+    h+=`</div>`;
     c.innerHTML=h;
   }
 
