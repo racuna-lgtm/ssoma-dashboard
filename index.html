@@ -34,7 +34,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#1B2A4A;color:#F4F6F9;mi
 .c2{background:rgba(91,155,213,.2);color:#7ab8e8;border:1px solid rgba(91,155,213,.3)}
 .c3{background:rgba(76,175,80,.15);color:#88d48a;border:1px solid rgba(76,175,80,.25)}
 /* resumen */
-.pilar-row{display:grid;grid-template-columns:230px 1fr 82px 82px 82px 60px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(93,155,213,.1)}
+.pilar-row{display:grid;grid-template-columns:230px 1fr 82px 82px 60px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(93,155,213,.1)}
 .pilar-row.hd{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;padding-bottom:8px}
 .pilar-name{font-size:12px;color:var(--white);line-height:1.4}
 .bar-wrap{height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
@@ -124,136 +124,122 @@ const CHIP=['c0','c1','c2','c3'];
 // ─── DATOS alineados al Plan Maestro SSOMA Socoval ────────────────────────────
 const data=[
   {
-    id:1,
-    nombre:'Gobernanza y DS N°44',
-    ref:'Sección 4.1',
+    id:1, nombre:'Gobernanza y DS N°44',
     vars:[
-      {n:'Política corporativa SSOMA formalizada',ref:'§4.1.1',planta:0,montaje:0,general:1,
-        desc:'Existencia de una política corporativa aprobada por Gerencia General, difundida y operativa como marco rector. Según §4.1.1, debe establecer la posición de Socoval en seguridad, salud, medio ambiente y cumplimiento legal.',
+      {n:'Política corporativa SSOMA formalizada', planta:1,montaje:0,general:1,
+        desc:'Existencia de una política corporativa aprobada por Gerencia General, difundida y operativa como marco rector. Debe establecer la posición de Socoval en seguridad, salud, medio ambiente y cumplimiento legal.',
         indicador:'Documento firmado + acta de difusión por unidad'},
-      {n:'Estructura preventiva formal (CPH, Delegados SST)',ref:'§4.1.6',planta:0,montaje:1,general:1,
+      {n:'Estructura preventiva formal (CPH, Delegados SST)', planta:1,montaje:0,general:1,
         desc:'Regularización de Comité Paritario de Higiene y Seguridad (CPH), Delegados de Seguridad en faenas pequeñas y responsable de apoyo preventivo. Exigencia legal que habilita la participación de los trabajadores.',
         indicador:'Actas de constitución + nóminas vigentes'},
-      {n:'Programa anual de trabajo preventivo',ref:'§4.1.3',planta:0,montaje:0,general:1,
+      {n:'Programa anual de trabajo preventivo', planta:0,montaje:0,general:1,
         desc:'Programa con actividades calendarizadas, responsables, plazos e indicadores. Es el instrumento operativo central del sistema; sin él no hay trazabilidad de la gestión preventiva.',
         indicador:'Documento aprobado + % de cumplimiento mensual'},
-      {n:'Procedimiento de riesgo grave e inminente',ref:'§4.1.4',planta:0,montaje:0,general:0,
+      {n:'Procedimiento de riesgo grave e inminente', planta:0,montaje:0,general:0,
         desc:'Procedimiento formal para detener trabajos ante riesgo grave. Debe definir criterios de suspensión, flujo de comunicación y control de reinicio. Ausencia implica exposición legal grave.',
         indicador:'Procedimiento escrito + registro de ejercicios'},
     ]
   },
   {
-    id:2,
-    nombre:'Control de Riesgos Críticos',
-    ref:'Sección 4.2',
+    id:2, nombre:'Control de Riesgos Críticos',
     vars:[
-      {n:'Matriz IPER por proceso y puesto (DS 44)',ref:'§4.1.2',planta:1,montaje:1,general:1,
+      {n:'Matriz IPER por proceso y puesto (DS 44)', planta:1,montaje:1,general:1,
         desc:'Matriz de Identificación de Peligros y Evaluación de Riesgos alineada al DS 44, con jerarquía de controles. Debe ser operativa, conocida por la línea de mando y actualizada periódicamente.',
         indicador:'Matriz vigente + evidencia de uso en terreno'},
-      {n:'Manual de controles críticos para los 9 riesgos identificados',ref:'§4.2.2',planta:0,montaje:0,general:0,
+      {n:'Manual de controles críticos para los 9 riesgos identificados', planta:0,montaje:0,general:0,
         desc:'Los 9 riesgos críticos de Socoval (energías peligrosas, altura, izaje, espacios confinados, sustancias peligrosas, hombre-máquina, trabajos en caliente, eléctrico, tránsito) deben tener controles obligatorios, condiciones de prohibición y evidencias mínimas documentadas.',
         indicador:'Manual corporativo aprobado + difusión verificable'},
-      {n:'Sistema de permisos de trabajo para tareas críticas',ref:'§4.2.3',planta:1,montaje:0,general:1,
+      {n:'Sistema de permisos de trabajo para tareas críticas', planta:0,montaje:0,general:1,
         desc:'Permisos estandarizados para tareas críticas con aprobación, vigencia, controles previos y criterios de detención. Sin permisos, el trabajo crítico no debería ejecutarse.',
         indicador:'Formato vigente + registros de uso por tarea'},
-      {n:'Verificación diaria de controles (VFL/checklist)',ref:'§4.2.4',planta:0,montaje:0,general:0,
-        desc:'Todo trabajo con riesgo crítico debe ejecutarse con checklist supervisado. La ausencia de controles críticos verificados implica la no ejecución del trabajo. Actualmente no existe evidencia de VFL sistemático.',
-        indicador:'Registros diarios de VFL + tasa de cumplimiento'},
+      {n:'Verificación diaria de controles', planta:1,montaje:0,general:0,
+        desc:'Todo trabajo con riesgo crítico debe ejecutarse con checklist supervisado. La ausencia de controles críticos verificados implica la no ejecución del trabajo.',
+        indicador:'Registros diarios de verificación + tasa de cumplimiento'},
     ]
   },
   {
-    id:3,
-    nombre:'Excelencia Operacional',
-    ref:'Sección 4.3',
+    id:3, nombre:'Excelencia Operacional',
     vars:[
-      {n:'Señalización y comunicación visual del riesgo',ref:'§4.3.1',planta:1,montaje:1,general:1,
-        desc:'Plan de señalización industrial que identifique riesgos, rutas de evacuación, uso de EPP y restricciones. Incluye demarcación de pasillos y zonas de tránsito (§4.3.2). Estado actual: existe parcialmente, sin estándar corporativo.',
+      {n:'Señalización y comunicación visual del riesgo', planta:0,montaje:0,general:1,
+        desc:'Plan de señalización industrial que identifique riesgos, rutas de evacuación, uso de EPP y restricciones. Incluye demarcación de pasillos y zonas de tránsito. Estado actual: no existe estándar corporativo.',
         indicador:'% de instalaciones con señalización conforme'},
-      {n:'Programa de orden, limpieza y control de condiciones subestándar',ref:'§4.3.3',planta:0,montaje:1,general:1,
+      {n:'Programa de orden, limpieza y control de condiciones subestándar', planta:0,montaje:0,general:1,
         desc:'Sistema continuo de orden y limpieza industrial orientado a eliminar desvíos físicos. Es base de la disciplina operacional y reduce exposición al riesgo de forma transversal.',
         indicador:'Inspecciones periódicas + registro de desvíos cerrados'},
-      {n:'Estándares para equipos, herramientas e instalaciones',ref:'§4.3.4',planta:1,montaje:1,general:2,
-        desc:'Estándares mínimos para máquinas, herramientas, instalaciones eléctricas y almacenamiento, con protocolos de inspección y mantenimiento. Área con mayor avance relativo dentro del pilar.',
+      {n:'Estándares para equipos, herramientas e instalaciones', planta:0,montaje:0,general:2,
+        desc:'Estándares mínimos para máquinas, herramientas, instalaciones eléctricas y almacenamiento, con protocolos de inspección y mantenimiento.',
         indicador:'Listado de estándares aprobados + registros de inspección'},
-      {n:'Evaluación ergonómica de puestos críticos',ref:'§4.3.5',planta:0,montaje:0,general:1,
-        desc:'Evaluación de puestos de trabajo desde el punto de vista ergonómico: posturas, carga física, repetitividad, manipulación de cargas. Vinculado directamente con los protocolos PREXOR y TMERT del pilar de salud.',
+      {n:'Evaluación ergonómica de puestos críticos', planta:1,montaje:0,general:1,
+        desc:'Evaluación de puestos de trabajo desde el punto de vista ergonómico: posturas, carga física, repetitividad, manipulación de cargas. Vinculado directamente con los protocolos PREXOR y TMERT.',
         indicador:'Informes de evaluación + plan de adecuación'},
     ]
   },
   {
-    id:4,
-    nombre:'Gestión Ambiental',
-    ref:'Sección 4.4',
+    id:4, nombre:'Gestión Ambiental',
     vars:[
-      {n:'Regularización administrativa y sanitaria (patentes, autorizaciones)',ref:'§4.4.1',planta:0,montaje:0,general:1,
-        desc:'Patente comercial, recepción municipal, autorizaciones sanitarias y respaldos de almacenamiento vigentes. Sin esto, las instalaciones operan con riesgo sancionatorio inmediato.',
+      {n:'Regularización administrativa y sanitaria (patentes, autorizaciones)', planta:1,montaje:-1,general:1,
+        desc:'Patente comercial, recepción municipal, autorizaciones sanitarias y respaldos de almacenamiento vigentes. Sin esto, las instalaciones operan con riesgo sancionatorio inmediato. Montaje: No aplica.',
         indicador:'Carpeta documental vigente por instalación'},
-      {n:'Sistema de gestión de residuos peligrosos (RESPEL)',ref:'§4.4.2',planta:0,montaje:0,general:0,
-        desc:'Identificación, segregación, almacenamiento, etiquetado, retiro por gestor autorizado y trazabilidad de residuos peligrosos. Pilar con mayor brecha global: ninguna unidad tiene esto instalado.',
+      {n:'Sistema de gestión de residuos peligrosos (RESPEL)', planta:0,montaje:0,general:0,
+        desc:'Identificación, segregación, almacenamiento, etiquetado, retiro por gestor autorizado y trazabilidad de residuos peligrosos. Ninguna unidad tiene esto instalado.',
         indicador:'Registros RESPEL + contratos con gestores autorizados'},
-      {n:'Control de aspectos ambientales significativos',ref:'§4.4.6',planta:0,montaje:0,general:1,
-        desc:'Identificación y gestión de residuos, emisiones, derrames y sustancias peligrosas. Incluye declaraciones ante Ventanilla Única (§4.4.5). Base del cumplimiento ambiental exigido por mandantes mineros.',
+      {n:'Control de aspectos ambientales significativos', planta:0,montaje:0,general:1,
+        desc:'Identificación y gestión de residuos, emisiones, derrames y sustancias peligrosas. Incluye declaraciones ante Ventanilla Única. Base del cumplimiento ambiental exigido por mandantes mineros.',
         indicador:'Matriz de aspectos/impactos + plan de control'},
-      {n:'Valorización de metales y residuos no peligrosos con trazabilidad',ref:'§4.4.3-4',planta:1,montaje:0,general:1,
-        desc:'Gestión formal de residuos industriales no peligrosos y valorización de chatarra/metales con certificados de recepción y trazabilidad cuantitativa. Variable con mayor avance dentro del pilar.',
+      {n:'Valorización de metales y residuos no peligrosos con trazabilidad', planta:0,montaje:0,general:1,
+        desc:'Gestión formal de residuos industriales no peligrosos y valorización de chatarra/metales con certificados de recepción y trazabilidad cuantitativa.',
         indicador:'Certificados de retiro + registros cuantitativos'},
     ]
   },
   {
-    id:5,
-    nombre:'Salud Ocupacional',
-    ref:'Sección 4.5',
+    id:5, nombre:'Salud Ocupacional',
     vars:[
-      {n:'Vigilancia médica ocupacional (ingreso, permanencia, egreso)',ref:'§4.5.3',planta:1,montaje:1,general:2,
-        desc:'Control de evaluaciones médicas ocupacionales estructurado por etapa (ingreso, permanencia, seguimiento, egreso). Variable con mejor nivel relativo del sistema; aplica especialmente a personas con exposición a ruido y humos metálicos.',
+      {n:'Vigilancia médica ocupacional (ingreso, permanencia, egreso)', planta:1,montaje:0,general:2,
+        desc:'Control de evaluaciones médicas ocupacionales estructurado por etapa (ingreso, permanencia, seguimiento, egreso). Aplica especialmente a personas con exposición a ruido y humos metálicos.',
         indicador:'Registros de exámenes por trabajador + trazabilidad de restricciones'},
-      {n:'Programa de vigilancia ambiental e higiene industrial',ref:'§4.5.1-2',planta:0,montaje:1,general:1,
+      {n:'Programa de vigilancia ambiental e higiene industrial', planta:1,montaje:1,general:1,
         desc:'Identificación de agentes de riesgo (ruido, humos metálicos, exposición química, carga física) y coordinación con el organismo administrador para incorporación a programas de vigilancia ocupacional.',
         indicador:'Informes de medición ambiental + nómina de trabajadores en vigilancia'},
-      {n:'Protocolos PREXOR y TMERT activos',ref:'§4.5.1',planta:2,montaje:1,general:2,
-        desc:'Aplicación de protocolos MINSAL para exposición a ruido (PREXOR) y trastornos musculoesqueléticos (TMERT). Es la variable con mayor nivel de madurez en toda la empresa, especialmente en Planta.',
+      {n:'Protocolos PREXOR y TMERT activos', planta:1,montaje:1,general:2,
+        desc:'Aplicación de protocolos MINSAL para exposición a ruido (PREXOR) y trastornos musculoesqueléticos (TMERT).',
         indicador:'Informes PREXOR/TMERT vigentes + medidas implementadas'},
-      {n:'Control de personas especialmente sensibles',ref:'§4.5.4-5',planta:0,montaje:0,general:1,
+      {n:'Control de personas especialmente sensibles', planta:0,montaje:0,general:1,
         desc:'Identificación y control especial de trabajadores con condiciones de salud que los exponen a mayor riesgo en determinadas tareas. Incluye trazabilidad de restricciones y medidas prescritas.',
         indicador:'Registro de trabajadores sensibles + cumplimiento de restricciones'},
     ]
   },
   {
-    id:6,
-    nombre:'Reportabilidad e Investigación',
-    ref:'Sección 4.6',
+    id:6, nombre:'Reportabilidad e Investigación',
     vars:[
-      {n:'Sistema corporativo de reportabilidad total',ref:'§4.6.1-2',planta:1,montaje:0,general:1,
-        desc:'Canales simples, rápidos y trazables para reportar accidentes, cuasi-accidentes, condiciones subestándar, actos inseguros y hallazgos críticos. Montaje sin sistema activo. Sin reporte no hay aprendizaje.',
+      {n:'Sistema corporativo de reportabilidad total', planta:0,montaje:0,general:1,
+        desc:'Canales simples, rápidos y trazables para reportar accidentes, cuasi-accidentes, condiciones subestándar, actos inseguros y hallazgos críticos. Sin reporte no hay aprendizaje.',
         indicador:'N° de eventos reportados por mes + tasa de reportabilidad'},
-      {n:'Metodología de investigación y análisis de causa raíz',ref:'§4.6.4',planta:0,montaje:1,general:1,
+      {n:'Metodología de investigación y análisis de causa raíz', planta:1,montaje:1,general:1,
         desc:'Metodología corporativa para identificar causas inmediatas, básicas y fallas del sistema, evitando culpar a las personas. Debe producir planes de acción con responsables y plazos verificables.',
         indicador:'% de investigaciones en plazo (24–72 hrs) + calidad de causa raíz'},
-      {n:'Trazabilidad de acciones correctivas y preventivas',ref:'§4.6.5-6',planta:0,montaje:0,general:1,
+      {n:'Trazabilidad de acciones correctivas y preventivas', planta:1,montaje:1,general:1,
         desc:'Gestión del cierre de acciones con evidencia verificable. Ningún evento puede cerrarse sin respaldo. Incluye control de reincidencia para validar eficacia del sistema.',
         indicador:'% de acciones cerradas en plazo + tasa de reincidencia'},
-      {n:'Sistema de lecciones aprendidas y retroalimentación',ref:'§4.6.7',planta:0,montaje:0,general:0,
+      {n:'Sistema de lecciones aprendidas y retroalimentación', planta:0,montaje:0,general:0,
         desc:'Transformación de eventos relevantes en aprendizaje organizacional mediante difusión, alertas internas, charlas y ajustes al sistema. Actualmente inexistente en todas las unidades.',
         indicador:'N° de lecciones difundidas + ajustes documentados al sistema'},
     ]
   },
   {
-    id:7,
-    nombre:'Cultura y Liderazgo',
-    ref:'Sección 4.7',
+    id:7, nombre:'Cultura y Liderazgo',
     vars:[
-      {n:'Liderazgo visible de gerencia y jefaturas en terreno',ref:'§4.7.2',planta:1,montaje:1,general:2,
-        desc:'Presencia activa de gerencia y jefaturas en terreno verificando controles, reforzando conductas y dando señales de prioridad al sistema. Es indicador de gestión formal (§7.3: presencia gerencial en terreno).',
+      {n:'Liderazgo visible de gerencia y jefaturas en terreno', planta:0,montaje:0,general:2,
+        desc:'Presencia activa de gerencia y jefaturas en terreno verificando controles, reforzando conductas y dando señales de prioridad al sistema.',
         indicador:'Registro de visitas en terreno + frecuencia por jefatura'},
-      {n:'Observaciones preventivas activas (OPA)',ref:'§4.7.3',planta:0,montaje:1,general:1,
-        desc:'Observaciones preventivas realizadas por supervisores y trabajadores como práctica sistemática. Herramienta clave para detectar desviaciones antes de que ocurran eventos. Indicador formal del sistema (§7.3).',
+      {n:'Observaciones preventivas activas (OPA)', planta:0,montaje:0,general:1,
+        desc:'Observaciones preventivas realizadas por supervisores y trabajadores como práctica sistemática. Herramienta clave para detectar desviaciones antes de que ocurran eventos.',
         indicador:'N° de OPA por período + % con cierre documentado'},
-      {n:'Capacitación SSOMA continua y habilitación',ref:'§4.2.5 / §4.7',planta:1,montaje:1,general:2,
+      {n:'Capacitación SSOMA continua y habilitación', planta:0,montaje:0,general:2,
         desc:'Toda persona expuesta a riesgos críticos debe estar capacitada, evaluada y habilitada formalmente. La capacitación continua es condición para mantener la disciplina operacional.',
         indicador:'% de personal habilitado por riesgo crítico + horas de capacitación'},
-      {n:'Régimen de tolerancia cero y cultura de reporte sin temor',ref:'§4.7.4-5',planta:0,montaje:0,general:1,
-        desc:'Tolerancia cero frente al ocultamiento de incidentes e incumplimiento de controles críticos, combinada con mecanismos de reconocimiento a la conducta segura. Sin ambos elementos la reportabilidad colapsa.',
-        indicador:'Índice de reportabilidad (§7.3) + registros de refuerzo positivo'},
+      {n:'Régimen de tolerancia cero y cultura de reporte sin temor', planta:0,montaje:0,general:1,
+        desc:'Tolerancia cero frente al ocultamiento de incidentes e incumplimiento de controles críticos, combinada con mecanismos de reconocimiento a la conducta segura.',
+        indicador:'Índice de reportabilidad + registros de refuerzo positivo'},
     ]
   }
 ];
@@ -287,18 +273,29 @@ const esfuerzo=[
 const prioridades=esfuerzo;
 
 // ─── FUNCIONES ────────────────────────────────────────────────────────────────
-function avg(vars,key){return +(vars.reduce((a,v)=>a+v[key],0)/vars.length).toFixed(2)}
-function gAvg(p){const all=p.vars.flatMap(v=>[v.planta,v.montaje,v.general]);return +(all.reduce((a,b)=>a+b,0)/all.length).toFixed(2)}
+function avg(vars,key){
+  const valid=vars.filter(v=>v[key]>=0);
+  if(!valid.length) return 0;
+  return +(valid.reduce((a,v)=>a+v[key],0)/valid.length).toFixed(2);
+}
+function gAvg(p){
+  const all=p.vars.flatMap(v=>[v.planta,v.montaje,v.general]).filter(v=>v>=0);
+  if(!all.length) return 0;
+  return +(all.reduce((a,b)=>a+b,0)/all.length).toFixed(2);
+}
 function li(v){return Math.round(v)}
-function chip(v){return`<span class="chip ${CHIP[v]}">${LEVELS[v]}</span>`}
+function chip(v){
+  if(v<0) return`<span class="chip" style="background:rgba(255,255,255,.08);color:var(--muted);border:1px solid var(--border)">N/A</span>`;
+  return`<span class="chip ${CHIP[v]}">${LEVELS[v]}</span>`;
+}
 
 function renderMetrics(){
-  const all=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje,v.general]));
+  const all=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje])).filter(v=>v>=0);
   const t=all.length,cero=all.filter(v=>v===0).length,bajo=all.filter(v=>v===1).length,acep=all.filter(v=>v>=2).length;
   const pct=+(all.reduce((a,b)=>a+b,0)/(t*3)*100).toFixed(0);
   document.getElementById('metrics').innerHTML=`
-    <div class="mc"><label>Índice global de madurez</label><div class="val" style="color:#5B9BD5">${pct}%</div><div class="sub">Meta año 1: 65%+</div></div>
-    <div class="mc"><label>Sin implementar (nivel 0)</label><div class="val" style="color:#f28b8b">${cero}</div><div class="sub">de ${t} variables evaluadas</div></div>
+    <div class="mc"><label>Índice global de madurez</label><div class="val" style="color:#5B9BD5">${pct}%</div><div class="sub">Meta año 1: 65%+ · solo Planta y Montaje</div></div>
+    <div class="mc"><label>Sin implementar (nivel 0)</label><div class="val" style="color:#f28b8b">${cero}</div><div class="sub">de ${t} evaluaciones válidas</div></div>
     <div class="mc"><label>Nivel bajo (nivel 1)</label><div class="val" style="color:#ffcc6e">${bajo}</div><div class="sub">esfuerzo inicial sin sistematizar</div></div>
     <div class="mc"><label>Aceptable o pleno (2–3)</label><div class="val" style="color:#88d48a">${acep}</div><div class="sub">base instalada para desarrollar</div></div>`;
 }
@@ -317,16 +314,16 @@ function showTab(tab,el){
       <span>Pilar</span><span>Índice global</span>
       <span style="text-align:center">Planta</span>
       <span style="text-align:center">Montaje</span>
-      <span style="text-align:center">General</span>
       <span style="text-align:center">Score</span>
     </div>`;
     data.forEach(p=>{
-      const ga=gAvg(p),pa=avg(p.vars,'planta'),ma=avg(p.vars,'montaje'),gea=avg(p.vars,'general');
+      const pa=avg(p.vars,'planta'),ma=avg(p.vars,'montaje');
+      const ga=+((pa+ma)/2).toFixed(2);
       const pct=+(ga/3*100).toFixed(0);
       h+=`<div class="pilar-row">
-        <span class="pilar-name">${p.id}. ${p.nombre} <span style="font-size:10px;color:var(--muted)">${p.ref}</span></span>
+        <span class="pilar-name">${p.id}. ${p.nombre}</span>
         <div><div class="bar-wrap"><div class="bar-fill" style="width:${pct}%;background:${COLORS[li(ga)]}"></div></div></div>
-        ${chip(li(pa))}${chip(li(ma))}${chip(li(gea))}
+        ${chip(li(pa))}${chip(li(ma))}
         <span class="score">${ga}/3</span>
       </div>`;
     });
@@ -340,17 +337,14 @@ function showTab(tab,el){
         <div class="var-block-header">
           <span class="badge">${p.id}</span>
           <h3>${p.nombre}</h3>
-          <span class="doc-ref">Plan Maestro ${p.ref}</span>
         </div>
         <div class="var-grid">`;
       p.vars.forEach(v=>{
         h+=`<div class="var-card">
           <div class="vname">${v.n}</div>
-          <div class="vref">Ref. Plan Maestro ${v.ref}</div>
           <div class="var-units">
             <div class="unit-cell"><div class="ulabel">Planta</div>${chip(v.planta)}</div>
             <div class="unit-cell"><div class="ulabel">Montaje</div>${chip(v.montaje)}</div>
-            <div class="unit-cell"><div class="ulabel">General</div>${chip(v.general)}</div>
           </div>
         </div>`;
       });
@@ -366,14 +360,13 @@ function showTab(tab,el){
     </div>`;
     data.forEach(p=>{
       h+=`<div class="glos-block">
-        <h3><span class="badge">${p.id}</span>${p.nombre} <span style="font-size:11px;font-weight:400;color:var(--muted)">&nbsp;${p.ref}</span></h3>
+        <h3><span class="badge">${p.id}</span>${p.nombre}</h3>
         <div class="glos-grid">`;
       p.vars.forEach(v=>{
         h+=`<div class="glos-card">
           <h4>${v.n}</h4>
           <p>${v.desc}</p>
           <div class="meta">
-            <span>Ref. ${v.ref}</span>
             <span>Indicador: ${v.indicador}</span>
           </div>
         </div>`;
@@ -472,20 +465,25 @@ function showTab(tab,el){
   }
 
   if(tab==='graficos'){
+    const totalEvals=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje])).filter(v=>v>=0).length;
     c.innerHTML=`<div class="chart-grid">
-      <div class="chart-box"><div class="chart-label">Madurez global por pilar (score 0–3)</div><div style="position:relative;height:300px"><canvas id="c1"></canvas></div></div>
-      <div class="chart-box"><div class="chart-label">Comparativa planta / montaje / general</div><div style="position:relative;height:300px"><canvas id="c2"></canvas></div></div>
-      <div class="chart-box full"><div class="chart-label">Distribución de variables por nivel de madurez (${data.flatMap(p=>p.vars).length * 3} evaluaciones totales)</div><div style="position:relative;height:200px"><canvas id="c3"></canvas></div></div>
+      <div class="chart-box"><div class="chart-label">Madurez por pilar — Planta vs Montaje</div><div style="position:relative;height:300px"><canvas id="c1"></canvas></div></div>
+      <div class="chart-box"><div class="chart-label">Radar comparativo — Planta vs Montaje</div><div style="position:relative;height:300px"><canvas id="c2"></canvas></div></div>
+      <div class="chart-box full"><div class="chart-label">Distribución de variables por nivel de madurez (${totalEvals} evaluaciones · solo Planta y Montaje)</div><div style="position:relative;height:200px"><canvas id="c3"></canvas></div></div>
     </div>`;
     Chart.defaults.color='#8DA8BF';
     Chart.defaults.borderColor='rgba(93,155,213,.18)';
     setTimeout(()=>{
       const labels=data.map(p=>p.id+'. '+p.nombre.split(' ').slice(0,2).join(' '));
-      const ga=data.map(p=>+gAvg(p));
+      // Score global = promedio Planta+Montaje por pilar
+      const ga=data.map(p=>{
+        const pa=avg(p.vars,'planta'),ma=avg(p.vars,'montaje');
+        return +((pa+ma)/2).toFixed(2);
+      });
       charts.push(new Chart(document.getElementById('c1'),{
         type:'bar',
         data:{labels,datasets:[{data:ga,backgroundColor:ga.map(v=>COLORS[li(v)]),borderWidth:0,borderRadius:4}]},
-        options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`Score: ${ctx.parsed.x.toFixed(2)} / 3 — ${LEVELS[li(ctx.parsed.x)]}`}}},scales:{x:{min:0,max:3,ticks:{stepSize:1,callback:v=>LEVELS[v]||v},grid:{color:'rgba(255,255,255,.06)'}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
+        options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`Score: ${ctx.parsed.x.toFixed(2)} / 3`}}},scales:{x:{min:0,max:3,ticks:{stepSize:1,callback:v=>LEVELS[v]||v},grid:{color:'rgba(255,255,255,.06)'}},y:{ticks:{font:{size:11}},grid:{display:false}}}}
       }));
       charts.push(new Chart(document.getElementById('c2'),{
         type:'radar',
@@ -494,12 +492,11 @@ function showTab(tab,el){
           datasets:[
             {label:'Planta',data:data.map(p=>+avg(p.vars,'planta')),borderColor:'#f28b8b',backgroundColor:'rgba(242,139,139,.1)',pointRadius:3,pointBackgroundColor:'#f28b8b'},
             {label:'Montaje',data:data.map(p=>+avg(p.vars,'montaje')),borderColor:'#ffcc6e',backgroundColor:'rgba(255,204,110,.1)',pointRadius:3,pointBackgroundColor:'#ffcc6e'},
-            {label:'General',data:data.map(p=>+avg(p.vars,'general')),borderColor:'#5B9BD5',backgroundColor:'rgba(91,155,213,.15)',pointRadius:3,pointBackgroundColor:'#5B9BD5'},
           ]
         },
         options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,color:'#8DA8BF'}}},scales:{r:{min:0,max:3,ticks:{stepSize:1,font:{size:9},backdropColor:'transparent'},grid:{color:'rgba(255,255,255,.08)'},pointLabels:{font:{size:12},color:'#C8DCF0'}}}}
       }));
-      const allv=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje,v.general]));
+      const allv=data.flatMap(p=>p.vars.flatMap(v=>[v.planta,v.montaje])).filter(v=>v>=0);
       const counts=[0,1,2,3].map(l=>allv.filter(v=>v===l).length);
       charts.push(new Chart(document.getElementById('c3'),{
         type:'bar',
