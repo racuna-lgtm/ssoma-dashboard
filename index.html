@@ -254,19 +254,19 @@ const esfuerzo=[
   {id:2,pilar:'Control de Riesgos Críticos',e1:40,e2:50,e3:30,e4:15,hhPrio:70,plazo:'Etapa 1–2 · Mes 2–4',prio:'alta',ref:'§4.2.2 / §4.2.4',
    acc:'Manual de controles para los 9 riesgos críticos e instalar VFL diario',
    motivo:'Exposición directa a accidentes graves mientras no existan controles verificados en terreno.'},
-  {id:3,pilar:'Excelencia Operacional',e1:10,e2:35,e3:40,e4:15,hhPrio:45,plazo:'Etapa 2–3 · Mes 4–7',prio:'media',ref:'§4.3.1 / §4.3.3',
+  {id:3,pilar:'Excelencia Operacional',e1:10,e2:35,e3:40,e4:15,hhPrio:45,plazo:'Etapa 2–3 · Mes 4–9',prio:'media',ref:'§4.3.1 / §4.3.3',
    acc:'Plan de señalización corporativa y programa de orden y limpieza',
    motivo:'Cara visible del sistema ante auditorías de mandantes. Base parcial existente.'},
   {id:4,pilar:'Gestión Ambiental',e1:35,e2:25,e3:20,e4:10,hhPrio:35,plazo:'Etapa 1–2 · Mes 2–4',prio:'alta',ref:'§4.4.1 / §4.4.2',
    acc:'Regularizar autorizaciones sanitarias e implementar sistema RESPEL',
    motivo:'Mayor brecha global. Riesgo inmediato de multas, clausuras y pérdida de contratos con mandantes.'},
-  {id:5,pilar:'Salud Ocupacional',e1:10,e2:25,e3:20,e4:10,hhPrio:30,plazo:'Etapa 2–3 · Mes 4–7',prio:'media',ref:'§4.5.1 / §4.5.4',
+  {id:5,pilar:'Salud Ocupacional',e1:10,e2:25,e3:20,e4:10,hhPrio:30,plazo:'Etapa 2–3 · Mes 4–9',prio:'media',ref:'§4.5.1 / §4.5.4',
    acc:'Estructurar programa de vigilancia ambiental y control de personas sensibles',
    motivo:'Base con PREXOR/TMERT activos. Formalizar y completar lo que ya comenzó.'},
   {id:6,pilar:'Reportabilidad e Investigación',e1:20,e2:40,e3:30,e4:15,hhPrio:50,plazo:'Etapa 2 · Mes 3–5',prio:'alta',ref:'§4.6.1 / §4.6.4',
    acc:'Activar sistema de reportabilidad total y metodología de investigación',
    motivo:'Sin datos no hay diagnóstico ni evidencia verificable ante mandantes y fiscalizadores.'},
-  {id:7,pilar:'Cultura y Liderazgo',e1:10,e2:20,e3:50,e4:20,hhPrio:80,plazo:'Etapa 3–4 · Mes 6–10',prio:'media',ref:'§4.7.3 / §4.6.7',
+  {id:7,pilar:'Cultura y Liderazgo',e1:10,e2:20,e3:50,e4:20,hhPrio:80,plazo:'Etapa 3–4 · Mes 7–12',prio:'media',ref:'§4.7.3 / §4.6.7',
    acc:'Instalar programa OPA, lecciones aprendidas y reconocimiento a conducta segura',
    motivo:'Requiere instalación cultural sostenida. Debe construirse sobre avances de los demás pilares.'},
 ];
@@ -385,16 +385,13 @@ function showTab(tab,el){
     // Métricas
     let h=`<div class="sum-strip">
       <div class="mc"><label>HH plan completo (12 meses)</label><div class="val" style="color:#5B9BD5">${totalCompleto}</div><div class="sub">todas las etapas · 7 pilares</div></div>
-      <div class="mc"><label>HH fase prioritaria (meses 1–7)</label><div class="val" style="color:#f28b8b">${totalPrio}</div><div class="sub">acciones de entrada por pilar</div></div>
       <div class="mc"><label>Pilares prioridad alta</label><div class="val" style="color:#f28b8b">${altaCount}</div><div class="sub">inicio inmediato</div></div>
       <div class="mc"><label>Pilares prioridad media</label><div class="val" style="color:#ffcc6e">${mediaCount}</div><div class="sub">etapas 2–4</div></div>
     </div>`;
 
     // Nota explicativa
     h+=`<div class="note" style="margin-bottom:16px">
-      <strong>Cómo leer este análisis:</strong> Las <strong>HH plan completo</strong> corresponden al esfuerzo total estimado por pilar distribuido en las 4 etapas del plan (12 meses). 
-      Las <strong>HH fase prioritaria</strong> son las horas de la acción de entrada de cada pilar, que deben ejecutarse primero. 
-      Ambas cifras son coherentes con los slides de análisis de esfuerzo de la presentación ejecutiva. Las HH son referenciales: ajustar según dotación real de Socoval SpA.
+      <strong>Cómo leer este análisis:</strong> Las <strong>HH plan completo</strong> corresponden al esfuerzo total estimado por pilar distribuido en las 4 etapas del plan (12 meses). Las HH son referenciales: ajustar según dotación real de Socoval SpA.
     </div>`;
 
     // Tabla por etapas
@@ -454,8 +451,6 @@ function showTab(tab,el){
         <div class="esfuerzo">
           <span>Pilar: <strong>${r.pilar}</strong></span>
           <span>· <strong>${r.plazo}</strong></span>
-          <span>· Ref. <strong>${r.ref}</strong></span>
-          <span>· Entrada: <strong>${r.hhPrio} HH</strong></span>
           <span>· Total pilar: <strong>${r.e1+r.e2+r.e3+r.e4} HH</strong></span>
         </div>
       </div>`;
